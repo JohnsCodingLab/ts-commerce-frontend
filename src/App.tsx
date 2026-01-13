@@ -1,8 +1,11 @@
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./routes";
+
 function App() {
   return (
-    <>
-      <h1>hello ts commerce</h1>
-    </>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 }
 
