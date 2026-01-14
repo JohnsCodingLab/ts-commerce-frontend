@@ -2,8 +2,6 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "ignoreDeprecations": "all",
-    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }

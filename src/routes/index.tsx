@@ -1,8 +1,9 @@
-import Login from "@/pages/Login";
+
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import Login from "@/pages/Login";
 
 const AppRouter: React.FC = () => {
   return (
