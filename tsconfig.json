@@ -2,7 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "all",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
