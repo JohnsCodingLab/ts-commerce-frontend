@@ -3,7 +3,7 @@
     "composite": true,
     "declaration": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "files": [],

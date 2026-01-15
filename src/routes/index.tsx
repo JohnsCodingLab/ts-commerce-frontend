@@ -3,14 +3,17 @@ import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import LandingPage from "@/pages/LandingPage";
 
 const AppRouter: React.FC = () => {
   return (
     <Routes>
       {/* Public Access */}
       <Route element={<PublicRoute />}>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} /> */}
+        <Route path="/register" element={<Register />} />
       </Route>
 
       {/* Protected Tech Grid */}
