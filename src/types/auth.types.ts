@@ -21,7 +21,7 @@ export interface AuthState {
 
 export interface AuthActions {
   login: (user: User, token: string) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   setLoading: (status: boolean) => void;
   setError: (message: string | null) => void;
 }

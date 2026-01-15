@@ -2,8 +2,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { loginSchema, type LoginFormValues } from "@/schemas/auth.schema";
+import { useAuthStore } from "@/store/authStore";
+import { authService } from "@/api/auth.service";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.login);
+  const setLoading = useAuthStore((state) => state.setLoading);
+  const isLoading = useAuthStore((state) => state.isLoading);
+
   const {
     register,
     handleSubmit,
@@ -13,7 +22,19 @@ const Login = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    console.log("Initiating login sequence...", data);
+    setLoading(true);
+    try {
+      const { user, token } = await authService.login(data);
+      setAuth(user, token);
+      toast.success(`Neural link established. Welcome, ${user.firstName}`);
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Authorization Sequence Error"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -113,6 +134,7 @@ const Login = () => {
 
           {/* Submit */}
           <motion.button
+            disabled={isLoading}
             whileHover={{
               scale: 1.05,
               boxShadow: "0 0 40px rgba(0,240,255,0.6)",
@@ -130,7 +152,7 @@ const Login = () => {
               shadow-[0_0_30px_rgba(0,240,255,0.4)]
             "
           >
-            Login
+            {isLoading ? "Verifying..." : "Login"}
           </motion.button>
         </form>
       </motion.div>

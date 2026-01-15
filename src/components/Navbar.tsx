@@ -1,17 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { ShoppingCart, User, LogOut, Menu } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuthStore();
 
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await toast.promise(logout(), {
+        loading: "Logging out...",
+        success: "Logged out",
+        error: "Logout failed",
+      });
+    } finally {
+      navigate("/login");
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full z-50">
-      {/* Glass Shell */}
-      {/* <div className="relative bg-[rgba(15,17,26,0.55)] backdrop-blur-xl border-b border-white/10"> */}
-      {/* Neon scan line */}
-      {/* <div className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,#00F0FF,transparent)] opacity-70" /> */}
-
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
@@ -68,7 +78,7 @@ const Navbar = () => {
                 </Link>
 
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="text-white/60 hover:text-neon-orange transition"
                 >
                   <LogOut size={18} />

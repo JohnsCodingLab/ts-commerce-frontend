@@ -1,3 +1,4 @@
+import { authService } from "@/api/auth.service";
 import type { AuthActions, AuthState } from "@/types/auth.types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -24,9 +25,21 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           error: null,
         }),
 
-      logout: () => {
-        set({ user: null, token: null, isAuthenticated: false });
-        localStorage.removeItem("neural-session-storage"); // Clear persistence
+      logout: async () => {
+        try {
+          return await authService.logout();
+        } catch (error) {
+          console.error("Logout failed", error);
+          throw error;
+        } finally {
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+          localStorage.removeItem("neural-session-storage");
+        }
       },
     }),
     {
