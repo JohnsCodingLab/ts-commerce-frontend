@@ -2,7 +2,7 @@ import type {
   LoginFormValues,
   RegisterFormValues,
 } from "@/schemas/auth.schema";
-import { privateApiClient, publicApiClient } from "./client";
+import { publicApiClient } from "./client";
 
 const AUTH_BASE = "http://localhost:3000/api/v1/auth";
 
@@ -17,7 +17,7 @@ export const authService = {
     return response.data;
   },
 
-  logout: async () => {
-    await privateApiClient.post(`${AUTH_BASE}/logout`);
+  logout: async (): Promise<void> => {
+    await publicApiClient.post(`${AUTH_BASE}/logout`);
   },
 };

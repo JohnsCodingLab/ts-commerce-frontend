@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { authService } from "@/api/auth.service";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,10 +29,16 @@ const Login = () => {
       setAuth(user, token);
       toast.success(`Neural link established. Welcome, ${user.firstName}`);
       navigate("/dashboard");
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Authorization Sequence Error"
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message ?? "Authorization Sequence Error"
+        );
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
