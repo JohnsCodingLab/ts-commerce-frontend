@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       logout: async () => {
         try {
-          await authService.logout();
+          return await authService.logout();
         } catch (error) {
           console.error("Logout failed", error);
           throw error;
