@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./routes";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import { ToastContainer } from "react-toastify";
 
 function App() {
