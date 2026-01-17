@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import { loginSchema, type LoginFormValues } from "@/schemas/auth.schema";
 import { useAuthStore } from "@/store/authStore";
 import { authService } from "@/api/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const setAuth = useAuthStore((state) => state.login);
   const setLoading = useAuthStore((state) => state.setLoading);
   const isLoading = useAuthStore((state) => state.isLoading);
@@ -22,17 +23,19 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const from = location.state?.from || "/dashboard";
+
   const onSubmit = async (data: LoginFormValues) => {
     setLoading(true);
     try {
       const { user, token } = await authService.login(data);
       setAuth(user, token);
       toast.success(`Neural link established. Welcome, ${user.firstName}`);
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         toast.error(
-          error.response?.data?.message ?? "Authorization Sequence Error"
+          error.response?.data?.message ?? "Authorization Sequence Error",
         );
       } else if (error instanceof Error) {
         toast.error(error.message);

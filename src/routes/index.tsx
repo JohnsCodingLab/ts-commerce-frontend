@@ -5,6 +5,8 @@ import PublicRoute from "./PublicRoute";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import LandingPage from "@/pages/LandingPage";
+import CartPage from "@/pages/CartPage";
+import CheckoutPage from "@/pages/CheckoutPage";
 
 const AppRouter: React.FC = () => {
   return (
@@ -14,12 +16,13 @@ const AppRouter: React.FC = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<CartPage />} />
       </Route>
 
       {/* Protected Tech Grid */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<h1>Welcome to the Grid</h1>} />
         <Route path="/dashboard" element={<h1>Futuristic Dashboard</h1>} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Route>
     </Routes>
   );

@@ -1,15 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import { ShoppingCart, User, LogOut, Menu } from "lucide-react";
+import { User, LogOut, Menu } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useCartStore } from "@/store/cartStore";
+import CartIcon from "../ui/CartIcon";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const { isAuthenticated, logout, user } = useAuthStore();
+  const totalItems = useCartStore((state) => state.getTotalItems());
 
   const navigate = useNavigate();
 
@@ -79,16 +82,7 @@ const Navbar = () => {
           {/* Right Cluster */}
           <div className="flex items-center gap-6 pl-6 border-l border-white/10">
             {/* Cart */}
-            <Link
-              to="/cart"
-              className="relative text-white/70 hover:text-neon-blue transition"
-            >
-              <ShoppingCart size={20} />
-              <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-neon-purple text-[10px] flex items-center justify-center text-black font-bold shadow-[0_0_10px_rgba(157,0,255,0.7)]">
-                0
-              </span>
-            </Link>
-
+            <CartIcon totalItems={totalItems} />
             {isAuthenticated ? (
               <div className="flex items-center gap-5">
                 <Link
@@ -136,12 +130,16 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Trigger */}
-        <button
-          onClick={() => setMobileOpen((prev) => !prev)}
-          className="md:hidden text-white/80 hover:text-neon-blue transition"
-        >
-          <Menu size={26} />
-        </button>
+        <div className="md:hidden flex items-center gap-4">
+          <CartIcon totalItems={totalItems} />
+
+          <button
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className="text-white/80 hover:text-neon-blue transition"
+          >
+            <Menu size={26} />
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
